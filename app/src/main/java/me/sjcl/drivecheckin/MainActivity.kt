@@ -1,31 +1,35 @@
 package me.sjcl.drivecheckin
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import me.sjcl.drivecheckin.navigation.DriveCheckinNavHost
+import me.sjcl.drivecheckin.ui.theme.DriveCheckinTheme
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var textView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        textView = findViewById(R.id.textView)
+        setContent {
+            val navController = rememberNavController()
+            DriveCheckinTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    DriveCheckinNavHost(navHostController = navController)
+                }
+            }
+        }
 
         val locationProvider = LocationProvider(this)
         if (!locationProvider.hasPermission()) {
             locationProvider.requestPermissionAndGetLocation()
         }
-
-        locationProvider.location.observe(this) { location ->
-            textView.text = location?.let {
-                "緯度: ${it.latitude}, 経度: ${it.longitude}"
-            } ?: "位置情報が取得できませんでした"
-        }
-
-        locationProvider.getLocation()
-
     }
-
 }
