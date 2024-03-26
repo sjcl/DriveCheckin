@@ -29,10 +29,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        val locationProvider = LocationProvider(this)
-        if (!locationProvider.hasPermission()) {
-            locationProvider.requestPermissionAndGetLocation()
-        }
     }
 }

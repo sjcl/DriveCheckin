@@ -11,7 +11,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val locationRepository: LocationRepository
 ) : ViewModel() {
-
     val location: LiveData<Location> = locationRepository.location
 
     fun updateLocation() {
